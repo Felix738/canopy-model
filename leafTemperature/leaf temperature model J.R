@@ -303,3 +303,19 @@ plot(flux$etflx, ylab = " Leaf transpiration flux (mol H2O/m2 leaf/s)")
 plot(flux$tleaf~atmo$tair, ylab="Leaf temperature changes with air temperature") 
 plot(flux$tleaf~flux$rnet)
 
+#The most unprofessional sensitivity analysis you could possibly imagine
+#run while loop first with Initial_Tl, then with Initial_Tl1
+leafemiss <- runif(50000, min=0.7, max=1)
+leafemiss <- 0.96
+dl <- 6
+dl <- runif(50000, min=3, max=6)
+latheatvap <- 2260 
+latheatvap <- runif(50000, min=1500, max=3000)
+#run model twice with different input parameters
+
+plot(flux$tleaf-flux$tleaf1)
+
+#Additional formulas for the loop including boundary condutance fluxes
+flux$shflx <- molheat * (Theta_a-flux$tleafl)*(gbh) #molar heat of moist air * (potential T of air-LeafTemp) * gbh
+
+
