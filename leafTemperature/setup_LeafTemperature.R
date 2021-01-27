@@ -3,7 +3,8 @@
 # Source: Bonan Ecosystem Modeling book, page 160
 
 # 1. Read Input data
-data <-read.csv("FLX_DE-Hainich.csv",header=TRUE, sep=";", na.strings="NA", dec=",")
+library(dplyr)
+data <-read.csv("data/FLX_DE-Hainich1.csv",header=TRUE, sep=";", na.strings="NA", dec=",")
 # select: air temperature TA_F (?C), vapor pressure deficit VPD_F (hPa) and air pressure PA_F (kPa)
 # incoming solar SW_IN_F and longwave radiation LW_IN_F (W m-2), soil Temp.in 2cm depth TS_F_MDS_1 (?C)
 # wind speed WS_F (M s-1)
@@ -117,13 +118,14 @@ leaftemp<- mydata%>%
   mutate(tleaf = tair)
 
 # Leaf stomatal conductance (mol H2O/m2 leaf/s)
-flux$gs <- seq(from=-0.2,to=0.1,length.out = 52608)
+gs <- seq(from=-0.2,to=0.1,length.out = 52608)
 
-flux <- merge(qa, conduct, by="TIMESTAMP_START", flux$gs)
+flux <- merge(qa, conduct, by="TIMESTAMP_START")
 flux <- merge(flux, leaftemp, by="TIMESTAMP_START")
 flux <- as.list(flux)
 
 #define variables Leaf Temperature
 vars_Cpools <- flux
+
 
 
